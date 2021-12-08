@@ -58,6 +58,7 @@ class Core(Server):
                         Size = int(Size)
                     except ValueError:
                         pass
+                print(Size, len(Buffer))
                 if Size is not None:
                     if Size - len(Buffer) <= 0:
                         return Buffer
