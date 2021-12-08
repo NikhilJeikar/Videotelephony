@@ -3,7 +3,8 @@ from Thread import Thread
 
 client = Client("192.168.1.6")
 client.Start()
-Join = "Join||4666|| ||"
+Id = input("Enter the Room ID: ")
+Join = f"Join||{Id}|| ||"
 client.SendTCP(f"{len(Join)}||{Join}")
 
 
