@@ -33,12 +33,12 @@ class Core(Server):
         for i in Text:
             print(i)
         for i in self.__Meetings[ID]:
-            self.__AddressTable[i].send(Text)
+            self.__AddressTable[i].send(Text.encode())
 
     def __VideoReceived(self, ID, Data, Address):
         if ID is not None:
             for i in self.__Meetings[ID]:
-                self._UDPSocket.sendto(Data.encode(), (i, self.__ClientUDPPort))
+                self._UDPSocket.sendto(Data, (i, self.__ClientUDPPort))
         else:
             self._UDPSocket.sendto(Status.Invalid.encode(), Address)
 
@@ -58,7 +58,6 @@ class Core(Server):
                         Size = int(Size)
                     except ValueError:
                         pass
-                print(Size, len(Buffer))
                 if Size is not None:
                     if Size - len(Buffer) <= 0:
                         return Buffer
@@ -79,13 +78,15 @@ class Core(Server):
                 Client.send((Status.Ack + Header.Split + str(ID)).encode())
             elif KeyWord == Header.Join:
                 ID, = Dat.split(Header.Split, maxsplit=1)
+                ID = int(ID)
                 self.__Address2ID[Address] = ID
+                print("Data", ID)
                 if ID in self.__MeetingsID:
                     self.__Meetings[ID].append(Address)
                     self.__Meetings[ID] = list(set(self.__Meetings[ID]))
                     Client.send(Status.Ack.encode())
                 else:
-                    Client.send(Status.Invalid)
+                    Client.send(Status.Invalid.encode())
             elif KeyWord == Header.Data:
                 Text = Dat.split('\n')
                 self.OnTextReceive(ID, Text)

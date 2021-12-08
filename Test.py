@@ -4,13 +4,15 @@ from Thread import Thread
 client = Client("192.168.1.6")
 client.Start()
 Id = input("Enter the Room ID: ")
-Join = f"Join||{Id}|| ||"
+Join = f"Join||{Id}"
 client.SendTCP(f"{len(Join)}||{Join}")
 
 
 def TCP():
     while True:
-        print(f"Sent through TCP{client.ReceiveTCP()}")
+        data = client.ReceiveTCP().decode()
+        if len(data) != 0:
+            print(f"Sent through TCP{data}")
 
 
 def UDP():
