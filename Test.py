@@ -12,12 +12,12 @@ def TCP():
     while True:
         data = client.ReceiveTCP().decode()
         if len(data) != 0:
-            print(f"Sent through TCP{data}")
+            print(f"Sent through TCP -> {data}")
 
 
 def UDP():
     while True:
-        print(client.ReceiveUDP())
+        print(f"Sent through UDP -> {client.ReceiveUDP()}")
 
 
 TCP_Thread = Thread(target=TCP, args=())

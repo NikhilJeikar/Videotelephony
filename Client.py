@@ -17,7 +17,8 @@ class Client:
 
     def __InitUDP(self):
         self.__UDPSocket = socket(family=AF_INET, type=SOCK_DGRAM)
-        self.__UDPSocket.connect((self.__IP, self.__UDPPort))
+        self.__UDPSocket.setsockopt(SOL_SOCKET, SO_REUSEADDR, 1)
+        self.__UDPSocket.bind((self.__IP, self.__UDPPort))
         self.__UDPUp = True
 
     def __InitTCP(self):

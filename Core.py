@@ -33,11 +33,13 @@ class Core(Server):
         for i in Text:
             print(i)
         for i in self.__Meetings[ID]:
-            self.__AddressTable[i].send(Text.encode())
+            for j in Text:
+                self.__AddressTable[i].send(j.encode())
 
     def __VideoReceived(self, ID, Data, Address):
         if ID is not None:
             for i in self.__Meetings[ID]:
+                print("Enter", Data, (i, self.__ClientUDPPort))
                 self._UDPSocket.sendto(Data, (i, self.__ClientUDPPort))
         else:
             self._UDPSocket.sendto(Status.Invalid.encode(), Address)
